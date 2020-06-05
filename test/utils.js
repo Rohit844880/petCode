@@ -25,5 +25,5 @@ const setup = async () => {
 };
 
 before(async () => {
-  await setup();
+ return  await setup();
 });

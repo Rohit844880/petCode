@@ -11,21 +11,20 @@ chai.use(chaiAsPromised);
 
 /** Creating a Suite for Unit Tests */
 
-describe('functional - Pets', () => {
+describe('functional - Pets',function ()  {
   /** Negative Test Case for Creating a Pet */
-  it('should fail to to create without name', async () => {
-    const res = await request(app).post('/pets').send({
-      age:16 ,  
-      color: 'gamer',
-
-    });
-    expect(res.status).to.equal(400);
-    expect(res.body.message).to.equal('"name" is required');
-   
+   it('should not create a pet because name is required',async function () {
+     const res = await request(app).post('/pets').send({
+          age:16 ,  
+          color: 'gamer',
+         
+        });
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal('"name" is required');
   });
   /** Positive Test Case For Creating a Pet */
-  it('should create a Pet', async () => {
-    const user = {
+  it('Is should create a pet',async function() {
+   const user = {
       name:'Rohit1',
       age:161 ,  
       color: 'gamer1',
@@ -36,34 +35,34 @@ describe('functional - Pets', () => {
     expect(res.body.name).to.equal(user.name);
     expect(res.body.age).to.equal(user.age);
     expect(res.body.color).to.equal(user.color);
-   });
-   /** Positive Test Case to Load All Pets */
-  it('should load all pets', async () => {
-    const res = await request(app).get('/pets');
+
+  });
+  /** Positive Test Case For Fetching All Pets */
+  it('should fetch all records',async function() {
+     const res = await request(app).get('/pets');
      expect(res.status).to.equal(200);
-   
-  });
-  /** Negative Test Case to Load All Pets */
-  it('should fail to load pets', async () => {
-    const res = await request(app).get('/');
-     expect(res.status).to.equal(404);
-   });
-
-   /** Negative Test Case to Load Pet By Pet Name */
-  it('should fail to load pet by Pet Id', async () => {
-    const petName= " "
-    const res = await request(app).get(`/pets/${petName}`)
-    expect(res.status).to.equal(400);
-   });
-
-   /** Negative Test Case for Creating a Pet */
-  it('should fail to delete with Blank Delete Id', async () => {
-    const deleteId= " "
-    const res = await request(app).delete(`/pets/${deleteId}`)
-    expect(res.status).to.equal(400);
   });
 
-});
+ /** Negative Test Case For Fetching Pets */
+ it('should not fetch any record',async function() {
+    const res = await request(app).get('/')
+    expect(res.status).to.equal(404);
+  });
+
+  /** Negative Test Case for fetching Pet By Id */
+  it('should not fetch record by Id',async function() {
+    const petId="";
+    const res = await request(app).get(`/pets/${petId}`);
+    expect (res.status).to.equal(200)
+  });
+
+ /** Negative Test Case For Removing a  Pet */
+  it('should not remove a pet',async function() {
+    const deleteId=" "
+  const res = await request(app).delete(`/pets/${deleteId}`)
+  expect(res.status).to.equal(404);
+})
+})
 
 
 

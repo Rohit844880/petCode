@@ -15,9 +15,9 @@ router.post(
     age: Joi.number().integer().required().description('Pets age'),
     color: Joi.string().required().description('Pets Color'),
   }),
-  {
-    stripUnknown: true,
-  }),
+    {
+      stripUnknown: true,
+    }),
   async (req, res, next) => {
     try {
       const Pets = new Pet(req.body);
@@ -30,21 +30,28 @@ router.post(
 );
 
 /** Get Api for Fetching Pets by Pet Name */
-router.get('/:petName',async(req,res,next) => {
-  await Pet.find({
-     name:req.params.petName
-  },(err,result) => {
-    if(err){
-      res.send(err);
-    }else{
-      res.send(result)
-    }
-  })
+router.get('/:petId', async (req, res, next) => {
+  if (!req.params.petId.trim()) {
+    return res.status(400).json({
+      message: 'error'
+    })
+  }
+  else {
+    await Pet.findById({
+      _id: req.params.petId
+    }, (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result)
+      }
+    })
+  }
 });
 
 /** Get Api fro fetching All Pets */
-router.get('/', async (req,res,next) => {
-  await Pet.find({}, function(err, result) {
+router.get('/', async (req, res, next) => {
+  await Pet.find({}, function (err, result) {
     if (err) {
       res.send(err);
     } else {
@@ -54,23 +61,23 @@ router.get('/', async (req,res,next) => {
 });
 
 /** Delete Api to delete Pet by ID */
-router.delete('/:deleteId/delete',async (req,res,next) => {
-  if(!req.params.deleteId.trim()){
+router.delete('/:deleteId', async (req, res, next) => {
+  if (!req.params.deleteId.trim()) {
     return res.status(400).json({
-      message:'error'
+      message: 'error'
     })
   }
-  else{
-    await Pet.deleteOne({_id:req.params.deleteId},function(err){
-      if(err){
+  else {
+    await Pet.deleteOne({ _id: req.params.deleteId }, function (err) {
+      if (err) {
         console.log(err);
       }
-      else{
+      else {
         res.send('Deleted');
       }
     });
   }
-  
+
 });
 
 module.exports = router;
