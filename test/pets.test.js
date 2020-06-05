@@ -1,3 +1,5 @@
+/** To Check Unit Test Cases of all CRUD API's */
+
 const request = require('supertest');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -7,7 +9,9 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe('functional - pets', () => {
+/** Creating a Suite for Unit Tests */
+
+describe('functional - Pets', () => {
   /** Negative Test Case for Creating a Pet */
   it('should fail to to create without name', async () => {
     const res = await request(app).post('/pets').send({
@@ -33,30 +37,28 @@ describe('functional - pets', () => {
     expect(res.body.age).to.equal(user.age);
     expect(res.body.color).to.equal(user.color);
    });
-});
-
-describe('functional - Get Pets', () => {
-  /** Positive Test Case to Load All Pets */
+   /** Positive Test Case to Load All Pets */
   it('should load all pets', async () => {
     const res = await request(app).get('/pets/petget');
      expect(res.status).to.equal(200);
    
   });
+  
   /** Negative Test Case to Load All Pets */
   it('should fail to load pets', async () => {
     const res = await request(app).get('/');
      expect(res.status).to.equal(404);
    });
-});
 
-describe('functional - Delete pet By Id', () => {
-  /** Negative Test Case for Creating a Pet */
+   /** Negative Test Case for Creating a Pet */
   it('should fail to delete with Blank Delete Id', async () => {
     const deleteId= " "
     const res = await request(app).post(`/pets/${deleteId}/delete`)
     expect(res.status).to.equal(400);
   });
+
 });
+
 
 
 

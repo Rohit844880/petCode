@@ -1,9 +1,20 @@
+/**Creating three mandatory fields using Mongoose Schema */
+
 const mongoose = require('mongoose');
 
-const petsSchema = new mongoose.Schema ({
-  name: mongoose.Schema.Types.String,
-   age: mongoose.Schema.Types.Number,
-   color: mongoose.Schema.Types.String,
+const petSchema = new mongoose.Schema ({
+  name:{
+    type:String,
+    required:true
+  },
+  age:{
+    type:Number,
+    required:true
+  },
+  color:{
+    type:String,
+    required:true
+  }
 });
 
-module.exports = mongoose.model('Pets', petsSchema);
+module.exports = mongoose.model('Pets', petSchema);

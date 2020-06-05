@@ -1,3 +1,4 @@
+/** All CRUD Api's */
 const express = require('express');
 const Joi = require('@hapi/joi');
 
@@ -6,6 +7,7 @@ const { validateBody } = require('../middlewares/route');
 
 const router = express.Router();
 
+/** Post Api to Create a Pet with Validation */
 router.post(
   '/',
   validateBody(Joi.object().keys({
@@ -18,9 +20,7 @@ router.post(
   }),
   async (req, res, next) => {
     try {
-      console.log('Rohit',req.body);
       const Pets = new Pet(req.body);
-      console.log(Pets);
       await Pets.save();
       res.status(201).json(Pets);
     } catch (e) {
@@ -29,7 +29,21 @@ router.post(
   }
 );
 
-router.get('/petget', async (req,res,next) => {
+/** Get Api for Fetching Pets by Pet Name */
+router.get('/:petName',async(req,res,next) => {
+  await Pet.find({
+     name:req.params.petName
+  },(err,result) => {
+    if(err){
+      res.send(err);
+    }else{
+      res.send(result)
+    }
+  })
+});
+
+/** Get Api fro fetching All Pets */
+router.get('/', async (req,res,next) => {
   await Pet.find({}, function(err, result) {
     if (err) {
       res.send(err);
@@ -39,7 +53,8 @@ router.get('/petget', async (req,res,next) => {
   });
 });
 
-router.post('/:deleteId/delete',async (req,res,next) => {
+/** Delete Api to delete Pet by ID */
+router.delete('/:deleteId/delete',async (req,res,next) => {
   if(!req.params.deleteId.trim()){
     return res.status(400).json({
       message:'error'
@@ -56,6 +71,6 @@ router.post('/:deleteId/delete',async (req,res,next) => {
     });
   }
   
-})
+});
 
 module.exports = router;

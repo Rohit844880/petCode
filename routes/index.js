@@ -1,3 +1,4 @@
+/** Creating root Route For All Api's */
 const express = require('express');
 
 const router = express.Router();
