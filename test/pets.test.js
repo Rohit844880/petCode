@@ -39,21 +39,27 @@ describe('functional - Pets', () => {
    });
    /** Positive Test Case to Load All Pets */
   it('should load all pets', async () => {
-    const res = await request(app).get('/pets/petget');
+    const res = await request(app).get('/pets');
      expect(res.status).to.equal(200);
    
   });
-  
   /** Negative Test Case to Load All Pets */
   it('should fail to load pets', async () => {
     const res = await request(app).get('/');
      expect(res.status).to.equal(404);
    });
 
+   /** Negative Test Case to Load Pet By Pet Name */
+  it('should fail to load pet by Pet Id', async () => {
+    const petName= " "
+    const res = await request(app).get(`/pets/${petName}`)
+    expect(res.status).to.equal(400);
+   });
+
    /** Negative Test Case for Creating a Pet */
   it('should fail to delete with Blank Delete Id', async () => {
     const deleteId= " "
-    const res = await request(app).post(`/pets/${deleteId}/delete`)
+    const res = await request(app).delete(`/pets/${deleteId}`)
     expect(res.status).to.equal(400);
   });
 
