@@ -30,13 +30,8 @@ router.post(
 );
 
 /** Get Api for Fetching Pets by Pet Name */
-router.get('/:petId', async (req, res, next) => {
-  if (!req.params.petId.trim()) {
-    return res.status(400).json({
-      message: 'error'
-    })
-  }
-  else {
+router.get('/:petId',
+  async (req, res, next) => {
     await Pet.findById({
       _id: req.params.petId
     }, (err, result) => {
@@ -46,8 +41,8 @@ router.get('/:petId', async (req, res, next) => {
         res.send(result)
       }
     })
-  }
-});
+
+  });
 
 /** Get Api fro fetching All Pets */
 router.get('/', async (req, res, next) => {
@@ -62,22 +57,14 @@ router.get('/', async (req, res, next) => {
 
 /** Delete Api to delete Pet by ID */
 router.delete('/:deleteId', async (req, res, next) => {
-  if (!req.params.deleteId.trim()) {
-    return res.status(400).json({
-      message: 'error'
-    })
-  }
-  else {
-    await Pet.deleteOne({ _id: req.params.deleteId }, function (err) {
-      if (err) {
-        res.send(err);
-      }
-      else {
-        res.send('Deleted');
-      }
-    });
-  }
-
+  await Pet.deleteOne({ _id: req.params.deleteId }, function (err) {
+    if (err) {
+      res.send(err);
+    }
+    else {
+      res.send('Deleted');
+    }
+  });
 });
 
 module.exports = router;
