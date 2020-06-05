@@ -6,6 +6,9 @@ const Pet = require('../models/pets');
 const { validateBody } = require('../middlewares/route');
 
 const router = express.Router();
+const schema = Joi.object({
+  id: Joi.number().required()
+});
 
 /** Post Api to Create a Pet with Validation */
 router.post(
@@ -30,10 +33,10 @@ router.post(
 );
 
 /** Get Api for Fetching Pets by Pet Name */
-router.get('/:petId',
+router.get('/:id',validateBody(schema),
   async (req, res, next) => {
     await Pet.findById({
-      _id: req.params.petId
+      _id: req.params.id
     }, (err, result) => {
       if (err) {
         res.send(err);
@@ -56,8 +59,8 @@ router.get('/', async (req, res, next) => {
 });
 
 /** Delete Api to delete Pet by ID */
-router.delete('/:deleteId', async (req, res, next) => {
-  await Pet.deleteOne({ _id: req.params.deleteId }, function (err) {
+router.delete('/:id', validateBody(schema),async (req, res, next) => {
+  await Pet.deleteOne({ _id: req.params.id }, function (err) {
     if (err) {
       res.send(err);
     }
