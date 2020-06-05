@@ -70,7 +70,7 @@ router.delete('/:deleteId', async (req, res, next) => {
   else {
     await Pet.deleteOne({ _id: req.params.deleteId }, function (err) {
       if (err) {
-        console.log(err);
+        res.send(err);
       }
       else {
         res.send('Deleted');
