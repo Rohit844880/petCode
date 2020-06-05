@@ -33,41 +33,53 @@ router.post(
 );
 
 /** Get Api for Fetching Pets by Pet Name */
-router.get('/:id',validateBody(schema),
+router.get('/:id', validateBody(schema),
   async (req, res, next) => {
-    await Pet.findById({
-      _id: req.params.id
-    }, (err, result) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(result)
-      }
-    })
-
+    try {
+      await Pet.findById({
+        _id: req.params.id
+      }, (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result)
+        }
+      })
+    } catch (e) {
+      next(e)
+    }
   });
 
 /** Get Api fro fetching All Pets */
 router.get('/', async (req, res, next) => {
-  await Pet.find({}, function (err, result) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
+  try {
+    await Pet.find({}, function (err, result) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  } catch (e) {
+    next(e)
+  }
 });
 
 /** Delete Api to delete Pet by ID */
-router.delete('/:id', validateBody(schema),async (req, res, next) => {
-  await Pet.deleteOne({ _id: req.params.id }, function (err) {
-    if (err) {
-      res.send(err);
-    }
-    else {
-      res.send('Deleted');
-    }
-  });
+router.delete('/:id', validateBody(schema), async (req, res, next) => {
+  try {
+    await Pet.deleteOne({ _id: req.params.id }, function (err) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.send('Deleted');
+      }
+    });
+  } catch (e) {
+    next(e)
+  }
 });
 
 module.exports = router;
