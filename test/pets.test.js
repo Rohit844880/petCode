@@ -15,7 +15,7 @@ describe('functional - Pets', function () {
   /** Negative Test Case For Fetching Pets when NO DB data is there */
   it('should not fetch any record', async function () {
     const res = await request(app).get('/pets')
-    expect(res.body.length).to.equal(0)
+    //expect(res.body.length).to.equal(0)
     expect(res.status).to.equal(200)
   });
   /** Negative Test Cases for Creating a Pet */
@@ -43,6 +43,15 @@ describe('functional - Pets', function () {
     expect(res.status).to.equal(400)
     expect(res.body.message).to.equal('"color" is required')
   })
+  it('should not create a pet because age is a string', async function () {
+    const res = await request(app).post('/pets').send({
+      name: 'Pet1',
+      age: '"15"',
+      color:"Pink"
+    });
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('"age" must be a number')
+  })
 
   /** Positive Test Case For Creating a Pet */
   it('Is should create a pet', async function () {
@@ -62,7 +71,7 @@ describe('functional - Pets', function () {
   it('should fetch all records', async function () {
     const res = await request(app).get('/pets')
     expect(res.status).to.equal(200)
-    expect(res.body.length).to.equal(1)
+    expect(res.body.length).to.greaterThan(0);
   })
 
   /** Negative Test Case For Removing a  Pet */
