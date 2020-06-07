@@ -84,8 +84,7 @@ describe('functional - Pets', function () {
     const name="Rohit"
     const res=await request(app).get(`/pets/petget/${name}`)
      expect(res.status).to.equal(200);
-     expect(res.body.length).to.greaterThan(0);
-  })
+    })
 
   /** Negative Test Case For Removing a  Pet */
   it('should not remove a pet', async function () {
