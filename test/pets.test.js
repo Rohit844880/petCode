@@ -15,7 +15,7 @@ describe('functional - Pets', function () {
   /** Negative Test Case For Fetching Pets when NO DB data is there */
   it('should not fetch any record', async function () {
     const res = await request(app).get('/pets')
-    //expect(res.body.length).to.equal(0)
+    expect(res.body.length).to.equal(0)
     expect(res.status).to.equal(200)
   });
   /** Negative Test Cases for Creating a Pet */
