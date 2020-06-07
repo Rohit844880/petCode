@@ -73,12 +73,32 @@ describe('functional - Pets', function () {
     expect(res.status).to.equal(200)
     expect(res.body.length).to.greaterThan(0);
   })
+  /**Negative Test Case For Fetching Pet by Name */ 
+  it('should not fetch pet by name',async function () {
+    const name=" "
+    const res=await request(app).get(`/pets/petget/${name}`)
+    expect(res.status).to.equal(404)
+  })
+  /** Positive Test Case For Fetching Pet by Name */
+  it('should fetch pet by name', async function () {
+    const name="Rohit"
+    const res=await request(app).get(`/pets/petget/${name}`)
+     expect(res.status).to.equal(200);
+     expect(res.body.length).to.greaterThan(0);
+  })
 
   /** Negative Test Case For Removing a  Pet */
   it('should not remove a pet', async function () {
-    const deleteId = " "
-    const res = await request(app).delete(`/pets/${deleteId}`)
+    const deleteName = " "
+    const res = await request(app).delete(`/pets/${deleteName}`)
     expect(res.status).to.equal(404)
+  })
+
+  /** Positive Test Case for removing a Pet */
+  it('should remove a pet',async function(){
+    const deleteName="Rohit"
+    const res=await request(app).delete(`/pets/${deleteName}`)
+    expect(res.status).to.equal(200)
   })
 })
 

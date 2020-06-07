@@ -30,16 +30,17 @@ router.post(
 );
 
 /** Get Api for Fetching Pets by Pet Name */
-router.get('/:id', validateParams({
-  id: Joi.number().required().description("id is required")
-},
+router.get('/petget/:name', validateParams(Joi.object().keys({
+  name: Joi.string().required()
+}),
   {
     stripUnknown: true,
   }),
   async (req, res, next) => {
     try {
-      const response = await Pet.findById({
-        _id: req.params.id
+      console.log(req.params.name);
+      const response = await Pet.find({
+        name: req.params.name
       }, (err, result) => {
         if (err) {
           res.send(err);
@@ -71,15 +72,15 @@ router.get('/', async (req, res, next) => {
 });
 
 /** Delete Api to delete Pet by ID */
-router.delete('/:id', validateParams({
-  id: Joi.number().required().description("id is required")
-},
+router.delete('/:name', validateParams(Joi.object().keys({
+  name: Joi.string().required()
+}),
   {
     stripUnknown: true,
   }),
   async (req, res, next) => {
     try {
-      await Pet.deleteOne({ _id: req.params.id }, function (err) {
+      await Pet.deleteMany({ name: req.params.name }, function (err) {
         if (err) {
           res.send(err);
         }
