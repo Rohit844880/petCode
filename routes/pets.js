@@ -7,12 +7,13 @@ const { validateBody, validateParams } = require('../middlewares/route');
 
 const router = express.Router();
 
+
 /** Post Api to Create a Pet with Validation */
 router.post(
   '/',
   validateBody(Joi.object().keys({
     name: Joi.string().required().description('Pets name'),
-    age: Joi.number().integer().required().description('Pets age'),
+    age: Joi.number().integer().required().description('Pets age Group'),
     color: Joi.string().required().description('Pets Color'),
   }),
     {
